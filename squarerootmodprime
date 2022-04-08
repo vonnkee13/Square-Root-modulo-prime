@@ -1,0 +1,20 @@
+def SquareRoot(y,p): #input y that is a square mod p, and odd prime p
+    if p% 4 == 3:
+        k=(p-3)//4
+        x=mod(y,p)^(k+1)
+        if mod(y,p) == mod(x^2,p):
+            return str(x)+" is the square root of "+str(y)+" mod "+str(p)+"."
+        else:
+            return str(y)+" is not a square mod "+str(p)
+    else:
+        R = PolynomialRing(GF(p),'a')
+        a=R.gen()
+        for delta in range(p):
+            f = (a-delta)^2-y
+            h = a^((p-1)/2)-1
+            g = f.gcd(h)
+            if (delta+g(0))^2 == y:
+                return str(delta+g(0))+" is the square root of "+str(y)+" mod "+str(p)+"."
+            elif (delta-g(0))^2 == y:
+                return delta-g(0)+" is the square root of "+str(y)+" mod "+str(p)+"."
+        return str(y)+" is not a square mod "+str(p)
